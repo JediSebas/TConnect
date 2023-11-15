@@ -1,12 +1,13 @@
 package com.jedisebas.tconnect
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import com.jedisebas.tconnect.databinding.ActivityMainBinding
+import com.jedisebas.tconnect.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,9 +34,14 @@ class MainActivity : AppCompatActivity() {
                 val text = editable.toString()
 
                 if (text.length == 13) {
-
+                    searchAndShow(text)
                 }
             }
         })
+    }
+
+    private fun searchAndShow(codeToFind: String) {
+        val fragment = SearchFragment()
+        fragment.show(supportFragmentManager, SearchFragment.TAG)
     }
 }
