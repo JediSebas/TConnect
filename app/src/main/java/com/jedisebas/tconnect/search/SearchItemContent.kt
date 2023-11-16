@@ -38,12 +38,12 @@ object SearchItemContent {
                         }
                     }
                 } else {
-                    println("Błąd: ${response.code()}")
+                    println("Error: ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<List<ProductDto>>, t: Throwable) {
-                println("Nie udało się pobrać danych. Błąd: ${t.message}")
+                println("Failed to obtain data. Error: ${t.message}")
             }
         })
     }
