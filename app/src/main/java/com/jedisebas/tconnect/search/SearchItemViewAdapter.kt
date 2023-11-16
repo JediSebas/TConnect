@@ -5,13 +5,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jedisebas.tconnect.databinding.FragmentSearchBinding
-import com.jedisebas.tconnect.placeholder.PlaceholderContent.PlaceholderItem
 import com.jedisebas.tconnect.search.SearchItemContent.SearchItem
 
-/**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
- * TODO: Replace the implementation with code for your data type.
- */
 class SearchItemViewAdapter(private val values: List<SearchItem>) : RecyclerView.Adapter<SearchItemViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
