@@ -18,10 +18,10 @@ object SearchItemViewModel : ViewModel() {
     private val _dataList = MutableLiveData<List<SearchItem>>()
     val dataList: LiveData<List<SearchItem>> get() = _dataList
 
-    fun insertItems() {
+    fun insertItems(code: Long) {
         viewModelScope.launch {
             val api = ApiClient.createApi()
-            val call = api.getByCode(5900592341879)
+            val call = api.getAll() // TODO later change to getByCode
 
             call.enqueue(object : Callback<List<ProductDto>> {
                 override fun onResponse(

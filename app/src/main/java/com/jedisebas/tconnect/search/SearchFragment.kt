@@ -5,13 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jedisebas.tconnect.R
 
-class SearchFragment : DialogFragment() {
+class SearchFragment(code: String) : DialogFragment() {
 
+    private val viewModel: SearchItemViewModel by viewModels()
+    private val code: Long = code.toLong()
     private var columnCount = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,26 +34,26 @@ class SearchFragment : DialogFragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = SearchItemViewAdapter(SearchItemContent.ITEMS)
+                val recyclerAdapter = SearchItemViewAdapter()
+                adapter = recyclerAdapter
+
+                viewModel.dataList.observe(viewLifecycleOwner) {
+                    recyclerAdapter.submitList(it)
+                }
             }
         }
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.insertItems(code)
+    }
+
     companion object {
 
         const val TAG = "SearchFragment"
-
-        // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            SearchFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
     }
 }
