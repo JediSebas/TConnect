@@ -2,4 +2,8 @@
     <string name="app_name">TConnect</string>
 
     <string name="code_example">5900592341879</string>
+
+    <string name="code_header">Kod</string>
+    <string name="n_w_header">N_W</string>
+    <string name="w_n_header">W_N</string>
 </resources>

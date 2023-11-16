@@ -27,9 +27,10 @@ class SearchFragment(code: String) : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_search_list, container, false)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.searchList)
 
-        if (view is RecyclerView) {
-            with(view) {
+        if (recyclerView is RecyclerView) {
+            with(recyclerView) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
@@ -55,5 +56,13 @@ class SearchFragment(code: String) : DialogFragment() {
 
         const val TAG = "SearchFragment"
         const val ARG_COLUMN_COUNT = "column-count"
+
+        @JvmStatic
+        fun newInstance(columnCount: Int, code: String) =
+            SearchFragment(code).apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_COLUMN_COUNT, columnCount)
+                }
+            }
     }
 }
