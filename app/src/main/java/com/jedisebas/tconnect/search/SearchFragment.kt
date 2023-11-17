@@ -1,15 +1,19 @@
 package com.jedisebas.tconnect.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jedisebas.tconnect.R
+import com.jedisebas.tconnect.ticket.TicketActivity
 
 class SearchFragment(code: String) : DialogFragment(), OnItemClickListener {
 
@@ -29,6 +33,7 @@ class SearchFragment(code: String) : DialogFragment(), OnItemClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_search_list, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.searchList)
+        val okButton = view.findViewById<Button>(R.id.okAfterSelect)
 
         if (recyclerView is RecyclerView) {
             with(recyclerView) {
@@ -44,6 +49,18 @@ class SearchFragment(code: String) : DialogFragment(), OnItemClickListener {
                 }
             }
         }
+
+        okButton.setOnClickListener{
+            if (recyclerAdapter.selectedId == -1) {
+                Toast.makeText(context, "Nie wybrano żadnego pola!", Toast.LENGTH_SHORT).show()
+            } else {
+                val item: SearchItemViewModel.SearchItem = recyclerAdapter.getSearchItem(recyclerAdapter.selectedId)
+                val intent = Intent(context, TicketActivity::class.java)
+                intent.putExtra("SearchItem", item)
+                startActivity(intent)
+            }
+        }
+
         return view
     }
 

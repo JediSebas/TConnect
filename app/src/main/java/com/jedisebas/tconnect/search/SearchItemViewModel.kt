@@ -1,5 +1,7 @@
 package com.jedisebas.tconnect.search
 
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.jedisebas.tconnect.api.ApiClient
 import com.jedisebas.tconnect.api.ProductDto
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parceler
+import kotlinx.parcelize.Parcelize
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,5 +56,27 @@ object SearchItemViewModel : ViewModel() {
         }
     }
 
-    data class SearchItem(val id: Int, val code: String, val nw: String, val wn: String)
+    @Parcelize
+    data class SearchItem(val id: Int, val code: String, val nw: String, val wn: String) : Parcelable {
+        constructor(parcel: Parcel) : this(
+            parcel.readInt(),
+            parcel.readString() ?: "",
+            parcel.readString() ?: "",
+            parcel.readString() ?: ""
+        )
+
+        companion object : Parceler<SearchItem> {
+
+            override fun create(parcel: Parcel): SearchItem {
+                return SearchItem(parcel)
+            }
+
+            override fun SearchItem.write(parcel: Parcel, flags: Int) {
+                parcel.writeInt(id)
+                parcel.writeString(code)
+                parcel.writeString(nw)
+                parcel.writeString(wn)
+            }
+        }
+    }
 }

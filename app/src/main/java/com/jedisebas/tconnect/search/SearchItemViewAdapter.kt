@@ -14,7 +14,7 @@ import com.jedisebas.tconnect.search.SearchItemViewModel.SearchItem
 class SearchItemViewAdapter(private val clickListener: OnItemClickListener) : RecyclerView.Adapter<SearchItemViewAdapter.ViewHolder>() {
 
     private var values: List<SearchItem> = emptyList()
-    private var selectedItem = -1
+    var selectedId = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -32,7 +32,7 @@ class SearchItemViewAdapter(private val clickListener: OnItemClickListener) : Re
         holder.code.text = item.code
         holder.nw.text = item.nw
         holder.wn.text = item.wn
-        holder.setSelected(position == selectedItem)
+        holder.setSelected(position == selectedId)
     }
 
     override fun getItemCount(): Int = values.size
@@ -45,8 +45,12 @@ class SearchItemViewAdapter(private val clickListener: OnItemClickListener) : Re
 
     @SuppressLint("NotifyDataSetChanged")
     fun setSelectedItem(position: Int) {
-        selectedItem = position
+        selectedId = position
         notifyDataSetChanged()
+    }
+
+    fun getSearchItem(position: Int): SearchItem {
+        return values[position]
     }
 
     inner class ViewHolder(binding: FragmentSearchBinding, private val clickListener: OnItemClickListener) :
