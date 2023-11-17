@@ -11,11 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jedisebas.tconnect.R
 
-class SearchFragment(code: String) : DialogFragment() {
+class SearchFragment(code: String) : DialogFragment(), OnItemClickListener {
 
     private val viewModel: SearchItemViewModel by viewModels()
     private val code: Long = code.toLong()
     private var columnCount = 1
+    private lateinit var recyclerAdapter: SearchItemViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,7 @@ class SearchFragment(code: String) : DialogFragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                val recyclerAdapter = SearchItemViewAdapter()
+                recyclerAdapter = SearchItemViewAdapter(this@SearchFragment)
                 adapter = recyclerAdapter
 
                 viewModel.dataList.observe(viewLifecycleOwner) {
@@ -50,6 +51,10 @@ class SearchFragment(code: String) : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.insertItems(code)
+    }
+
+    override fun onItemClick(position: Int) {
+        recyclerAdapter.setSelectedItem(position)
     }
 
     companion object {
