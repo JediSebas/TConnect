@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,7 +36,11 @@ class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : 
         }
 
         okButton.setOnClickListener {
-            println(searchItem)
+            if (recyclerAdapter.selectedId == -1) {
+                Toast.makeText(context, requireContext().resources.getText(R.string.not_chose_field), Toast.LENGTH_SHORT).show()
+            } else {
+
+            }
         }
 
         return view

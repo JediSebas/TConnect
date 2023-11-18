@@ -9,5 +9,5 @@
     <string name="number_t_header">NumerT</string>
     <string name="ok">OK</string>
 
-    <string name="not_chosed_field">"Nie wybrano żadnego pola!"</string>
+    <string name="not_chose_field">"Nie wybrano żadnego pola!"</string>
 </resources>
