@@ -3,26 +3,32 @@ package com.jedisebas.tconnect.ticket
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.jedisebas.tconnect.R
-import com.jedisebas.tconnect.search.SearchItemViewModel.SearchItem
+import com.jedisebas.tconnect.databinding.ActivityTicketBinding
+import com.jedisebas.tconnect.search.SearchItemViewModel
 
 class TicketActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityTicketBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ticket)
+        binding = ActivityTicketBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val searchItem: SearchItemViewModel.SearchItem? = getParcelable()
 
-        val searchItem = getParcelable()
-
-        println(searchItem)
+        showTicketFragment(searchItem)
     }
 
-    private fun getParcelable() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent?.getParcelableExtra("SearchItem", SearchItem::class.java)
+    private fun getParcelable(): SearchItemViewModel.SearchItem? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent?.getParcelableExtra("SearchItem", SearchItemViewModel.SearchItem::class.java)
         } else {
             intent?.getParcelableExtra("SearchItem")
-
         }
+    }
+
+    private fun showTicketFragment(searchItem: SearchItemViewModel.SearchItem?) {
+        val fragment = TicketFragment(searchItem)
+        fragment.show(supportFragmentManager, TicketFragment.TAG)
     }
 }

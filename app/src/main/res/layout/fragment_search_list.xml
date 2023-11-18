@@ -40,8 +40,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchList"
-        android:name="com.jedisebas.tconnect.SearchFragment"
+        android:id="@+id/search_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -56,7 +55,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/okAfterSelect"
+            android:id="@+id/ok_after_select"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/ok" />

@@ -32,8 +32,8 @@ class SearchFragment(code: String) : DialogFragment(), OnItemClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_search_list, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.searchList)
-        val okButton = view.findViewById<Button>(R.id.okAfterSelect)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.search_list)
+        val okButton = view.findViewById<Button>(R.id.ok_after_select)
 
         if (recyclerView is RecyclerView) {
             with(recyclerView) {
@@ -58,6 +58,8 @@ class SearchFragment(code: String) : DialogFragment(), OnItemClickListener {
                 val intent = Intent(context, TicketActivity::class.java)
                 intent.putExtra("SearchItem", item)
                 startActivity(intent)
+
+                dismiss()
             }
         }
 
