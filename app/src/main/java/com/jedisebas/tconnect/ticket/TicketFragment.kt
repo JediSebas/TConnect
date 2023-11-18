@@ -9,10 +9,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jedisebas.tconnect.OnItemClickListener
 import com.jedisebas.tconnect.R
 import com.jedisebas.tconnect.search.SearchItemViewModel
 
-class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : DialogFragment() {
+class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : DialogFragment(), OnItemClickListener {
 
     private val viewModel: TicketViewModel by viewModels()
     private lateinit var recyclerAdapter: TicketItemViewAdapter
@@ -25,7 +26,7 @@ class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : 
         with(recyclerView) {
             layoutManager = LinearLayoutManager(context)
 
-            recyclerAdapter = TicketItemViewAdapter()
+            recyclerAdapter = TicketItemViewAdapter(this@TicketFragment)
             adapter = recyclerAdapter
 
             viewModel.dataList.observe(viewLifecycleOwner) {
@@ -44,6 +45,10 @@ class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : 
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.insertNumbers()
+    }
+
+    override fun onItemClick(position: Int) {
+        recyclerAdapter.setSelectedItem(position)
     }
 
     companion object {
