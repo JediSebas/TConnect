@@ -60,7 +60,7 @@ class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : 
         val product: ProductDto? = searchItem?.let {
             ProductDto(
                 it.code.toLong(),
-                "I forget add name",
+                it.name,
                 it.nw.toInt(),
                 it.wn,
                 ticket.id,
@@ -69,6 +69,7 @@ class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : 
         }
 
         println(formattedDate)
+        println(product)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

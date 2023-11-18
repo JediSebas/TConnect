@@ -37,7 +37,7 @@ object SearchItemViewModel : ViewModel() {
                         var counter = 0
                         products?.let {
                             for (product in it) {
-                                val item = SearchItem(counter, product.code.toString(),
+                                val item = SearchItem(counter, product.name, product.code.toString(),
                                     product.nW.toString(), product.wN)
                                 ITEMS.add(item)
                                 counter++
@@ -57,9 +57,10 @@ object SearchItemViewModel : ViewModel() {
     }
 
     @Parcelize
-    data class SearchItem(val id: Int, val code: String, val nw: String, val wn: String) : Parcelable {
+    data class SearchItem(val id: Int, val name: String, val code: String, val nw: String, val wn: String) : Parcelable {
         constructor(parcel: Parcel) : this(
             parcel.readInt(),
+            parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.readString() ?: ""
@@ -73,6 +74,7 @@ object SearchItemViewModel : ViewModel() {
 
             override fun SearchItem.write(parcel: Parcel, flags: Int) {
                 parcel.writeInt(id)
+                parcel.writeString(name)
                 parcel.writeString(code)
                 parcel.writeString(nw)
                 parcel.writeString(wn)
