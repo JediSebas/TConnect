@@ -1,4 +1,4 @@
-package com.jedisebas.tconnect.search
+package com.jedisebas.tconnect
 
 interface OnItemClickListener {
     fun onItemClick(position: Int)

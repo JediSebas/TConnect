@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.jedisebas.tconnect.OnItemClickListener
 import com.jedisebas.tconnect.databinding.FragmentSearchBinding
 import com.jedisebas.tconnect.search.SearchItemViewModel.SearchItem
 
