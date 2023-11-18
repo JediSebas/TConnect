@@ -8,4 +8,6 @@
     <string name="w_n_header">W_N</string>
     <string name="number_t_header">NumerT</string>
     <string name="ok">OK</string>
+
+    <string name="not_chosed_field">"Nie wybrano żadnego pola!"</string>
 </resources>

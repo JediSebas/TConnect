@@ -53,7 +53,7 @@ class SearchFragment(code: String) : DialogFragment(), OnItemClickListener {
 
         okButton.setOnClickListener{
             if (recyclerAdapter.selectedId == -1) {
-                Toast.makeText(context, "Nie wybrano żadnego pola!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, requireContext().resources.getText(R.string.not_chosed_field), Toast.LENGTH_SHORT).show()
             } else {
                 val item: SearchItemViewModel.SearchItem = recyclerAdapter.getSearchItem(recyclerAdapter.selectedId)
                 val intent = Intent(context, TicketActivity::class.java)
