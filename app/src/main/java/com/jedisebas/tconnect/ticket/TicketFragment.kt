@@ -1,5 +1,6 @@
 package com.jedisebas.tconnect.ticket
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jedisebas.tconnect.OnItemClickListener
 import com.jedisebas.tconnect.R
+import com.jedisebas.tconnect.api.ProductDto
 import com.jedisebas.tconnect.search.SearchItemViewModel
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : DialogFragment(), OnItemClickListener {
 
@@ -39,11 +43,32 @@ class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : 
             if (recyclerAdapter.selectedId == -1) {
                 Toast.makeText(context, requireContext().resources.getText(R.string.not_chose_field), Toast.LENGTH_SHORT).show()
             } else {
-
+                changeNumberT(recyclerAdapter.getTicket(recyclerAdapter.selectedId))
+                dismiss()
             }
         }
 
         return view
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun changeNumberT(ticket: TicketViewModel.TicketItem) {
+        val currentDate = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val formattedDate = dateFormat.format(currentDate)
+
+        val product: ProductDto? = searchItem?.let {
+            ProductDto(
+                it.code.toLong(),
+                "I forget add name",
+                it.nw.toInt(),
+                it.wn,
+                ticket.id,
+                formattedDate
+            )
+        }
+
+        println(formattedDate)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

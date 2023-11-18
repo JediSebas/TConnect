@@ -46,6 +46,10 @@ class TicketItemViewAdapter(private val clickListener: OnItemClickListener) : Re
         notifyDataSetChanged()
     }
 
+    fun getTicket(position: Int): TicketViewModel.TicketItem {
+        return values[position]
+    }
+
     inner class ViewHolder(binding: FragmentTicketBinding, private val clickListener: OnItemClickListener) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         private val parent = binding.ticketParent
