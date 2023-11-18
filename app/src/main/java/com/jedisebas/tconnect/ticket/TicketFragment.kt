@@ -1,6 +1,7 @@
 package com.jedisebas.tconnect.ticket
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jedisebas.tconnect.OnItemClickListener
 import com.jedisebas.tconnect.R
+import com.jedisebas.tconnect.StartActivity
+import com.jedisebas.tconnect.api.ApiClient
 import com.jedisebas.tconnect.api.ProductDto
 import com.jedisebas.tconnect.search.SearchItemViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
@@ -45,6 +51,7 @@ class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : 
             } else {
                 changeNumberT(recyclerAdapter.getTicket(recyclerAdapter.selectedId))
                 dismiss()
+                backToStartActivity()
             }
         }
 
@@ -52,7 +59,7 @@ class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : 
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun changeNumberT(ticket: TicketViewModel.TicketItem) {
+    fun changeNumberT(ticket: TicketViewModel.TicketItem) {
         val currentDate = Calendar.getInstance().time
         val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val formattedDate = dateFormat.format(currentDate)
@@ -68,8 +75,33 @@ class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : 
             )
         }
 
-        println(formattedDate)
-        println(product)
+        val api = ApiClient.createApi()
+
+        if (product != null) {
+            val call = api.updateOne(product)
+            call.enqueue(object : Callback<ProductDto> {
+                override fun onResponse(
+                    call: Call<ProductDto>,
+                    response: Response<ProductDto>
+                ) {
+                    if (response.isSuccessful) {
+                        println("Successful")
+                    } else {
+                        println("Error: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<ProductDto>, t: Throwable) {
+                    println("Mission failed. Error: ${t.message}")
+                }
+            })
+        }
+    }
+
+    private fun backToStartActivity() {
+        val intent = Intent(requireContext(), StartActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
