@@ -4,7 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jedisebas.tconnect.databinding.ActivityTicketBinding
-import com.jedisebas.tconnect.search.SearchItemViewModel
+import com.jedisebas.tconnect.search.SearchItemViewModel.SearchItem
 
 class TicketActivity : AppCompatActivity() {
 
@@ -14,20 +14,34 @@ class TicketActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTicketBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val searchItem: SearchItemViewModel.SearchItem? = getParcelable()
+        val searchItem: SearchItem? = getParcelable()
+
+        setTextViewForSearchItem(searchItem)
+
+        binding.searchH.setOnClickListener {
+            showTicketFragment(searchItem)
+        }
 
         showTicketFragment(searchItem)
     }
 
-    private fun getParcelable(): SearchItemViewModel.SearchItem? {
+    private fun getParcelable(): SearchItem? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent?.getParcelableExtra("SearchItem", SearchItemViewModel.SearchItem::class.java)
+            intent?.getParcelableExtra("SearchItem", SearchItem::class.java)
         } else {
             intent?.getParcelableExtra("SearchItem")
         }
     }
 
-    private fun showTicketFragment(searchItem: SearchItemViewModel.SearchItem?) {
+    private fun setTextViewForSearchItem(searchItem: SearchItem?) {
+        if (searchItem != null) {
+            binding.codeH.text = searchItem.code
+            binding.nWH.text = searchItem.nw
+            binding.wNH.text = searchItem.wn
+        }
+    }
+
+    private fun showTicketFragment(searchItem: SearchItem?) {
         val fragment = TicketFragment(searchItem)
         fragment.show(supportFragmentManager, TicketFragment.TAG)
     }
