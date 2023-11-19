@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.jedisebas.tconnect.MyColors
 import com.jedisebas.tconnect.OnItemClickListener
 import com.jedisebas.tconnect.databinding.FragmentSearchBinding
 import com.jedisebas.tconnect.search.SearchItemViewModel.SearchItem
@@ -74,20 +75,24 @@ class SearchItemViewAdapter(private val clickListener: OnItemClickListener) : Re
         fun setSelected(isSelected: Boolean) {
             val typedValue = TypedValue()
             val theme = itemView.context.theme
+            theme.resolveAttribute(android.R.attr.listViewStyle, typedValue, true)
+            val defaultColor = typedValue.data
 
             val isNightMode = (itemView.context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-            if (isNightMode) {
-                theme.resolveAttribute(android.R.attr.listViewStyle, typedValue, true)
-            } else {
-                theme.resolveAttribute(android.R.attr.listViewStyle, typedValue, true)
-            }
-
-            val defaultColorPrimary = typedValue.data
 
             if (isSelected) {
-                itemView.setBackgroundColor(Color.rgb(179,255,191))
+                val green = Color.rgb(179,255,191)
+                if (isNightMode) {
+                    itemView.setBackgroundColor(MyColors.darkColor(green, 0.8f))
+                } else {
+                    itemView.setBackgroundColor(green)
+                }
             } else {
-                itemView.setBackgroundColor(defaultColorPrimary)
+                if (isNightMode) {
+                    itemView.setBackgroundColor(defaultColor)
+                } else {
+                    itemView.setBackgroundColor(defaultColor)
+                }
             }
         }
     }

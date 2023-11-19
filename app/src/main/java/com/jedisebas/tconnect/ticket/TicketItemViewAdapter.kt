@@ -1,12 +1,14 @@
 package com.jedisebas.tconnect.ticket
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.jedisebas.tconnect.MyColors
 import com.jedisebas.tconnect.OnItemClickListener
 import com.jedisebas.tconnect.databinding.FragmentTicketBinding
 
@@ -64,10 +66,21 @@ class TicketItemViewAdapter(private val clickListener: OnItemClickListener) : Re
         }
 
         fun setSelected(isSelected: Boolean) {
+            val isNightMode = (itemView.context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+
             if (isSelected) {
-                itemView.setBackgroundColor(Color.rgb(179,255,191))
+                val green = Color.rgb(179,255,191)
+                if (isNightMode) {
+                    itemView.setBackgroundColor(MyColors.darkColor(green, 0.8f))
+                } else {
+                    itemView.setBackgroundColor(green)
+                }
             } else {
-                itemView.setBackgroundColor(Color.rgb(200, 200, 200))
+                if (isNightMode) {
+                    itemView.setBackgroundColor(Color.rgb(87, 87, 87))
+                } else {
+                    itemView.setBackgroundColor(Color.rgb(211,211,211))
+                }
             }
         }
     }
