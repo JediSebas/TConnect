@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun searchAndShow(codeToFind: String) {
-        val fragment = SearchFragment(codeToFind)
+        val fragment = SearchFragment.newInstance(1, codeToFind)
         fragment.show(supportFragmentManager, SearchFragment.TAG)
     }
 }

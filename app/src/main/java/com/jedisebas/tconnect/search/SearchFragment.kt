@@ -16,11 +16,11 @@ import com.jedisebas.tconnect.OnItemClickListener
 import com.jedisebas.tconnect.R
 import com.jedisebas.tconnect.ticket.TicketActivity
 
-class SearchFragment(code: String) : DialogFragment(), OnItemClickListener {
+class SearchFragment : DialogFragment(), OnItemClickListener {
 
     private val viewModel: SearchItemViewModel by viewModels()
-    private val code: Long = code.toLong()
     private var columnCount = 1
+    private var code: Long = 0
     private lateinit var recyclerAdapter: SearchItemViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +28,7 @@ class SearchFragment(code: String) : DialogFragment(), OnItemClickListener {
 
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
+            code = it.getString(ARG_CODE)?.toLong() ?: "0".toLong()
         }
     }
 
@@ -81,12 +82,14 @@ class SearchFragment(code: String) : DialogFragment(), OnItemClickListener {
 
         const val TAG = "SearchFragment"
         const val ARG_COLUMN_COUNT = "column-count"
+        const val ARG_CODE = "code"
 
         @JvmStatic
         fun newInstance(columnCount: Int, code: String) =
-            SearchFragment(code).apply {
+            SearchFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
+                    putString(ARG_CODE, code)
                 }
             }
     }
