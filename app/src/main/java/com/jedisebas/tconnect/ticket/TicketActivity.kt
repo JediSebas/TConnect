@@ -42,7 +42,7 @@ class TicketActivity : AppCompatActivity() {
     }
 
     private fun showTicketFragment(searchItem: SearchItem?) {
-        val fragment = TicketFragment(searchItem)
+        val fragment = TicketFragment.newInstance(searchItem!!)
         fragment.show(supportFragmentManager, TicketFragment.TAG)
     }
 }

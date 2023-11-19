@@ -2,6 +2,7 @@ package com.jedisebas.tconnect.ticket
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,10 +25,23 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
-class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : DialogFragment(), OnItemClickListener {
+class TicketFragment : DialogFragment(), OnItemClickListener {
 
     private val viewModel: TicketViewModel by viewModels()
+    private var searchItem: SearchItemViewModel.SearchItem? = null
     private lateinit var recyclerAdapter: TicketItemViewAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.let {
+            searchItem = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                it.getParcelable(ARG_SEARCH, SearchItemViewModel.SearchItem::class.java)
+            } else {
+                it.getParcelable(ARG_SEARCH)
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_ticket_list, container, false)
@@ -116,5 +130,14 @@ class TicketFragment(private val searchItem: SearchItemViewModel.SearchItem?) : 
 
     companion object {
         const val TAG = "TicketFragment"
+        const val ARG_SEARCH = "searchItem"
+
+        @JvmStatic
+        fun newInstance(item: SearchItemViewModel.SearchItem) =
+            TicketFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_SEARCH, item)
+                }
+            }
     }
 }
