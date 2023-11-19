@@ -25,7 +25,7 @@ object SearchItemViewModel : ViewModel() {
     fun insertItems(code: Long) {
         viewModelScope.launch {
             val api = ApiClient.createApi()
-            val call = api.getAll() // TODO later change to getByCode
+            val call = api.getByCode(code)
 
             call.enqueue(object : Callback<List<ProductDto>> {
                 override fun onResponse(
