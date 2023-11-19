@@ -1,7 +1,9 @@
 package com.jedisebas.tconnect.search
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.graphics.Color
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,10 +72,22 @@ class SearchItemViewAdapter(private val clickListener: OnItemClickListener) : Re
         }
 
         fun setSelected(isSelected: Boolean) {
+            val typedValue = TypedValue()
+            val theme = itemView.context.theme
+
+            val isNightMode = (itemView.context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+            if (isNightMode) {
+                theme.resolveAttribute(android.R.attr.listViewStyle, typedValue, true)
+            } else {
+                theme.resolveAttribute(android.R.attr.listViewStyle, typedValue, true)
+            }
+
+            val defaultColorPrimary = typedValue.data
+
             if (isSelected) {
                 itemView.setBackgroundColor(Color.rgb(179,255,191))
             } else {
-                itemView.setBackgroundColor(Color.rgb(200, 200, 200))
+                itemView.setBackgroundColor(defaultColorPrimary)
             }
         }
     }
