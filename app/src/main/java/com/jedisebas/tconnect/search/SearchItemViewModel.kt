@@ -17,8 +17,6 @@ import retrofit2.Response
 
 object SearchItemViewModel : ViewModel() {
 
-    val ITEMS: MutableList<SearchItem> = ArrayList()
-
     private val _dataList = MutableLiveData<List<SearchItem>>()
     val dataList: LiveData<List<SearchItem>> get() = _dataList
 
@@ -35,15 +33,16 @@ object SearchItemViewModel : ViewModel() {
                     if (response.isSuccessful) {
                         val products = response.body()
                         var counter = 0
+                        val items: MutableList<SearchItem> = ArrayList()
                         products?.let {
                             for (product in it) {
                                 val item = SearchItem(counter, product.name, product.code.toString(),
                                     product.nW.toString(), product.wN)
-                                ITEMS.add(item)
+                                items.add(item)
                                 counter++
                             }
                         }
-                        _dataList.postValue(ITEMS)
+                        _dataList.postValue(items)
                     } else {
                         println("Error: ${response.code()}")
                     }
