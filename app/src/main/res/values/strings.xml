@@ -10,4 +10,5 @@
     <string name="ok">OK</string>
 
     <string name="not_chose_field">"Nie wybrano żadnego pola!"</string>
+    <string name="go_to_extra_search">\?</string>
 </resources>

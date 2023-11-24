@@ -15,6 +15,9 @@
         android:theme="@style/Theme.TConnect"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".extrasearch.ExtraSearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".ticket.TicketActivity"
             android:exported="false" />
         <activity

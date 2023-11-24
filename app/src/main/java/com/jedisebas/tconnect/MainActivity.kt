@@ -1,12 +1,14 @@
 package com.jedisebas.tconnect
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.jedisebas.tconnect.databinding.ActivityMainBinding
+import com.jedisebas.tconnect.extrasearch.ExtraSearchActivity
 import com.jedisebas.tconnect.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
@@ -38,6 +40,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+
+        binding.extraSearch.setOnClickListener {
+            val intent = Intent(this, ExtraSearchActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun searchAndShow(codeToFind: String) {
