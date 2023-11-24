@@ -49,6 +49,12 @@ class SearchFragment : DialogFragment(), OnItemClickListener {
                 viewModel.dataList.observe(viewLifecycleOwner) {
                     recyclerAdapter.submitList(it)
                 }
+
+                viewModel.isNotConnected.observe(viewLifecycleOwner) {
+                    if (it) {
+                        Toast.makeText(context, "Błąd łączenia z bazą danych", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
 

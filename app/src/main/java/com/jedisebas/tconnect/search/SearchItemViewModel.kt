@@ -20,10 +20,15 @@ object SearchItemViewModel : ViewModel() {
     private val _dataList = MutableLiveData<List<SearchItem>>()
     val dataList: LiveData<List<SearchItem>> get() = _dataList
 
+    private val _isNotConnected = MutableLiveData<Boolean>()
+    val isNotConnected: LiveData<Boolean> get() = _isNotConnected
+
     fun insertItems(code: Long) {
         viewModelScope.launch {
+            _isNotConnected.value = false
             val api = ApiClient.createApi()
             val call = api.getByCode(code)
+            _dataList.postValue(ArrayList())
 
             call.enqueue(object : Callback<List<ProductDto>> {
                 override fun onResponse(
@@ -49,6 +54,7 @@ object SearchItemViewModel : ViewModel() {
                 }
 
                 override fun onFailure(call: Call<List<ProductDto>>, t: Throwable) {
+                    _isNotConnected.postValue(true)
                     println("Failed to obtain data. Error: ${t.message}")
                 }
             })
