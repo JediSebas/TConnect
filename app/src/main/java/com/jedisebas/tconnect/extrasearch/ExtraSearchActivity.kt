@@ -30,14 +30,14 @@ class ExtraSearchActivity : AppCompatActivity() {
         }
 
         binding.extraSearchBtn.setOnClickListener {
-            val numberT = binding.numberTEt.text.trim()
-            val date = binding.dateEt.text.trim()
-            val wN = binding.wNEt.text.trim()
+            val numberT = binding.numberTEt.text.toString().trim()
+            val date = binding.dateEt.text.toString().trim()
+            val wN = binding.wNEt.text.toString().trim()
 
             if (numberT.isEmpty() || date.isEmpty()) {
                 Toast.makeText(baseContext, "Podaj numer i datę!", Toast.LENGTH_SHORT).show()
             } else {
-
+                searchAndShow(numberT.toInt(), date, wN)
             }
         }
     }
@@ -66,5 +66,10 @@ class ExtraSearchActivity : AppCompatActivity() {
         }
 
         return result.append(number).toString()
+    }
+
+    private fun searchAndShow(numberT: Int, date: String, wN: String) {
+        val fragment = ExtraSearchFragment.newInstance(1, numberT, date, wN)
+        fragment.show(supportFragmentManager, ExtraSearchFragment.TAG)
     }
 }
