@@ -1,16 +1,19 @@
 <resources>
-    <string name="app_name">TConnect</string>
+    <string name="app_name" translatable="false">TConnect</string>
 
-    <string name="code_example">5900592341879</string>
+    <string name="code_example" translatable="false">5900592341879</string>
 
-    <string name="code_header">Kod</string>
+    <string name="code_header">Code</string>
     <string name="n_w_header">N_W</string>
     <string name="w_n_header">W_N</string>
-    <string name="number_t_header">NumerT</string>
-    <string name="ok">OK</string>
-    <string name="date_example">2023–31–12</string>
+    <string name="number_t_header">NumberT</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="date_example" translatable="false">2023–31–12</string>
 
-    <string name="not_chose_field">"Nie wybrano żadnego pola!"</string>
-    <string name="go_to_extra_search">\?</string>
-    <string name="search">WYSZUKAJ</string>
+    <string name="not_chose_field">No field selected!</string>
+    <string name="enter_number_and_date">Enter the number and date!</string>
+    <string name="error_connect_database">Error connecting to the database</string>
+
+    <string name="go_to_extra_search" translatable="false">\?</string>
+    <string name="search">SEARCH</string>
 </resources>

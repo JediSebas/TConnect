@@ -8,6 +8,7 @@ import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.jedisebas.tconnect.R
 import com.jedisebas.tconnect.databinding.ActivityExtrasearchBinding
 import java.util.Calendar
 
@@ -35,7 +36,7 @@ class ExtraSearchActivity : AppCompatActivity() {
             val wN = binding.wNEt.text.toString().trim()
 
             if (numberT.isEmpty() || date.isEmpty()) {
-                Toast.makeText(baseContext, "Podaj numer i datę!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(baseContext, getString(R.string.enter_number_and_date), Toast.LENGTH_SHORT).show()
             } else {
                 searchAndShow(numberT.toInt(), date, wN)
             }

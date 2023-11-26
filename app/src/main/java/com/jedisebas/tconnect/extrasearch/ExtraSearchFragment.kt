@@ -60,7 +60,7 @@ class ExtraSearchFragment : DialogFragment(), OnItemClickListener {
 
                 viewModel.isNotConnected.observe(viewLifecycleOwner) {
                     if (it) {
-                        Toast.makeText(context, "Błąd łączenia z bazą danych", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.error_connect_database), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
