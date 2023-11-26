@@ -13,6 +13,7 @@
     <string name="not_chose_field">No field selected!</string>
     <string name="enter_number_and_date">Enter the number and date!</string>
     <string name="error_connect_database">Error connecting to the database</string>
+    <string name="wrong_date_format">Wrong date format!</string>
 
     <string name="go_to_extra_search" translatable="false">\?</string>
     <string name="search">SEARCH</string>

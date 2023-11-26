@@ -1,6 +1,5 @@
 package com.jedisebas.tconnect.ticket
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -9,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,20 +16,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jedisebas.tconnect.OnItemClickListener
 import com.jedisebas.tconnect.R
 import com.jedisebas.tconnect.StartActivity
-import com.jedisebas.tconnect.api.ApiClient
-import com.jedisebas.tconnect.api.ProductDto
 import com.jedisebas.tconnect.search.SearchItemViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.text.SimpleDateFormat
-import java.util.Calendar
 
 class TicketFragment : DialogFragment(), OnItemClickListener {
 
     private val viewModel: TicketViewModel by viewModels()
     private var searchItem: SearchItemViewModel.SearchItem? = null
     private lateinit var recyclerAdapter: TicketItemViewAdapter
+    private lateinit var loadingDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +32,17 @@ class TicketFragment : DialogFragment(), OnItemClickListener {
             searchItem = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 it.getParcelable(ARG_SEARCH, SearchItemViewModel.SearchItem::class.java)
             } else {
+                @Suppress("DEPRECATION")
                 it.getParcelable(ARG_SEARCH)
             }
         }
+
+        loadingDialog = AlertDialog.Builder(requireContext())
+            .setMessage("Wykonywanie zapytania...")
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -63,53 +65,47 @@ class TicketFragment : DialogFragment(), OnItemClickListener {
             if (recyclerAdapter.selectedId == -1) {
                 Toast.makeText(context, requireContext().resources.getText(R.string.not_chose_field), Toast.LENGTH_SHORT).show()
             } else {
-                changeNumberT(recyclerAdapter.getTicket(recyclerAdapter.selectedId))
-                dismiss()
-                backToStartActivity()
+                viewModel.requestState.observe(viewLifecycleOwner) { state ->
+                    println(state)
+                    when (state) {
+                        is RequestState.Loading -> showLoadingDialog()
+                        is RequestState.Success -> showSuccessDialog(state.message)
+                        is RequestState.Error -> showErrorDialog(state.errorMessage)
+                    }
+                }
+
+                viewModel.changeNumberT(recyclerAdapter.getTicket(recyclerAdapter.selectedId), searchItem)
             }
         }
 
         return view
     }
 
-    @SuppressLint("SimpleDateFormat")
-    fun changeNumberT(ticket: TicketViewModel.TicketItem) {
-        val currentDate = Calendar.getInstance().time
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-        val formattedDate = dateFormat.format(currentDate)
+    private fun showLoadingDialog() {
+        loadingDialog.show()
+    }
 
-        val product: ProductDto? = searchItem?.let {
-            ProductDto(
-                it.code.toLong(),
-                it.name,
-                it.nw.toInt(),
-                it.wn,
-                ticket.id,
-                formattedDate
-            )
-        }
+    private fun showSuccessDialog(message: String) {
+        loadingDialog.dismiss()
+        AlertDialog.Builder(requireContext())
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+                backToStartActivity()
+            }
+            .create()
+            .show()
+    }
 
-        val api = ApiClient.createApi()
-
-        if (product != null) {
-            val call = api.updateOne(product)
-            call.enqueue(object : Callback<ProductDto> {
-                override fun onResponse(
-                    call: Call<ProductDto>,
-                    response: Response<ProductDto>
-                ) {
-                    if (response.isSuccessful) {
-                        println("Successful")
-                    } else {
-                        println("Error: ${response.code()}")
-                    }
-                }
-
-                override fun onFailure(call: Call<ProductDto>, t: Throwable) {
-                    println("Mission failed. Error: ${t.message}")
-                }
-            })
-        }
+    private fun showErrorDialog(errorMessage: String) {
+        loadingDialog.dismiss()
+        AlertDialog.Builder(requireContext())
+            .setMessage(errorMessage)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
     private fun backToStartActivity() {

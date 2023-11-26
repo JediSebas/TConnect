@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.jedisebas.tconnect.R
 import com.jedisebas.tconnect.databinding.ActivityExtrasearchBinding
+import java.time.LocalDate
+import java.time.format.DateTimeParseException
 import java.util.Calendar
 
 class ExtraSearchActivity : AppCompatActivity() {
@@ -21,6 +23,8 @@ class ExtraSearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityExtrasearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.dateEt.setText(currentDate())
 
         binding.dateEt.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
@@ -38,9 +42,22 @@ class ExtraSearchActivity : AppCompatActivity() {
             if (numberT.isEmpty() || date.isEmpty()) {
                 Toast.makeText(baseContext, getString(R.string.enter_number_and_date), Toast.LENGTH_SHORT).show()
             } else {
-                searchAndShow(numberT.toInt(), date, wN)
+                if (validDateFormat(date)) {
+                    searchAndShow(numberT.toInt(), date, wN)
+                } else {
+                    Toast.makeText(baseContext, getString(R.string.wrong_date_format), Toast.LENGTH_SHORT).show()
+                }
             }
         }
+    }
+
+    private fun currentDate(): String {
+        val calendar = Calendar.getInstance()
+        val y: Int = calendar.get(Calendar.YEAR)
+        val m: Int = calendar.get(Calendar.MONTH)
+        val d: Int = calendar.get(Calendar.DAY_OF_MONTH)
+
+        return "$y-${addLeadingZero(m + 1)}-${addLeadingZero(d)}"
     }
 
     private fun showDatePickerDialog(editTextDate: EditText) {
@@ -67,6 +84,15 @@ class ExtraSearchActivity : AppCompatActivity() {
         }
 
         return result.append(number).toString()
+    }
+
+    private fun validDateFormat(dateString: String): Boolean {
+        return try {
+            LocalDate.parse(dateString)
+            true
+        } catch (e: DateTimeParseException) {
+            false
+        }
     }
 
     private fun searchAndShow(numberT: Int, date: String, wN: String) {

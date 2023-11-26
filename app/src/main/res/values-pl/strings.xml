@@ -7,6 +7,7 @@
     <string name="not_chose_field">Nie wybrano żadnego pola!</string>
     <string name="enter_number_and_date">Podaj numer i datę!</string>
     <string name="error_connect_database">Błąd połączenia z bazą danych</string>
+    <string name="wrong_date_format">Zły format daty!</string>
 
     <string name="go_to_extra_search">\?</string>
     <string name="search">WYSZUKAJ</string>
