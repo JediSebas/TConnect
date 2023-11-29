@@ -24,20 +24,20 @@ class ExtraSearchActivity : AppCompatActivity() {
         binding = ActivityExtrasearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.dateEt.setText(currentDate())
+        binding.dateExtraEt.setText(currentDate())
 
-        binding.dateEt.setOnTouchListener { _, event ->
+        binding.dateExtraEt.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
-                showDatePickerDialog(binding.dateEt)
+                showDatePickerDialog(binding.dateExtraEt)
                 return@setOnTouchListener true
             }
             return@setOnTouchListener false
         }
 
         binding.extraSearchBtn.setOnClickListener {
-            val numberT = binding.numberTEt.text.toString().trim()
-            val date = binding.dateEt.text.toString().trim()
-            val wN = binding.wNEt.text.toString().trim()
+            val numberT = binding.numberTExtraEt.text.toString().trim()
+            val date = binding.dateExtraEt.text.toString().trim()
+            val wN = binding.wNExtraEt.text.toString().trim()
 
             if (numberT.isEmpty() || date.isEmpty()) {
                 Toast.makeText(baseContext, getString(R.string.enter_number_and_date), Toast.LENGTH_SHORT).show()

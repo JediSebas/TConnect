@@ -1,4 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">14dp</dimen>
+    <dimen name="et_min_height">48dp</dimen>
+    <dimen name="et_bigger_text">20sp</dimen>
+    <dimen name="extra_margin_top">16dp</dimen>
 </resources>
