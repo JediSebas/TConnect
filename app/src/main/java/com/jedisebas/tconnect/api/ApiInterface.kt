@@ -5,28 +5,42 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.PUT
-import retrofit2.http.Path
+import retrofit2.http.Query
 import java.time.LocalDate
 
 interface ApiInterface {
 
     @Headers("Content-Type: application/json")
-    @GET("v1/products")
+    @GET("v2/products")
     fun getAll(): Call<List<ProductDto>>
 
     @Headers("Content-Type: application/json")
-    @GET("v1/products/{code}")
-    fun getByCode(@Path("code") code: Long): Call<List<ProductDto>>
+    @GET("v2/products/without-t")
+    fun getAllWithNullNumberT(): Call<List<ProductDto>>
 
     @Headers("Content-Type: application/json")
-    @GET("v1/products/{numberT}/{date}")
-    fun getByNumberTAndDate(@Path("numberT") numberT: Int, @Path("date") date: LocalDate): Call<List<ProductDto>>
+    @GET("v2/products/with-t")
+    fun getAllWithNumberT(): Call<List<ProductDto>>
 
     @Headers("Content-Type: application/json")
-    @GET("v1/products/{numberT}/{date}/{wN}")
-    fun getByNumberTAndDateAndWN(@Path("numberT") numberT: Int, @Path("date") date: LocalDate, @Path("wN") wN: String): Call<List<ProductDto>>
+    @GET("v2/products/main")
+    fun getAllByCode(@Query("code") code: Long): Call<List<ProductDto>>
 
     @Headers("Content-Type: application/json")
-    @PUT("v1/products")
+    @GET("v2/products/main")
+    fun getAllByCodePartAndWn(@Query("part") part: Long?, @Query("wn") wn: String?): Call<List<ProductDto>>
+
+    @Headers("Content-Type: application/json")
+    @GET("v2/products/extra")
+    fun getAllByParamsCode(@Query("code") code: Long?, @Query("number") number: Int?,
+                           @Query("date") date: LocalDate?, @Query("wn") wn: String?): Call<List<ProductDto>>
+
+    @Headers("Content-Type: application/json")
+    @GET("v2/products/extra")
+    fun getAllByParamsCodePart(@Query("code") part: Long?, @Query("number") number: Int?,
+                           @Query("date") date: LocalDate?, @Query("wn") wn: String?): Call<List<ProductDto>>
+
+    @Headers("Content-Type: application/json")
+    @PUT("v2/products")
     fun updateOne(@Body productDto: ProductDto): Call<ProductDto>
 }

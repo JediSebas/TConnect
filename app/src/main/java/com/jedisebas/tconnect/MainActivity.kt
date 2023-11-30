@@ -33,13 +33,25 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(editable: Editable?) {
-                val text = editable.toString()
+                val code = editable.toString().trim()
 
-                if (text.length == 13) {
-                    searchAndShow(text)
+                if (code.length == 13) {
+                    searchAndShow(SearchFragment.CODE_SEARCH, code, null, null)
                 }
             }
         })
+
+        binding.searchBtn.setOnClickListener {
+            val part: String = binding.fourCodeMainEt.text.toString().trim()
+            val wn: String = binding.wNMainEt.text.toString().trim()
+
+            if (part.isEmpty() && wn.isEmpty()) {
+                searchAndShow(SearchFragment.NO_T_SEARCH, null, null, null)
+            } else {
+                searchAndShow(SearchFragment.PART_SEARCH, null, part, wn)
+            }
+
+        }
 
         binding.extraSearch.setOnClickListener {
             val intent = Intent(this, ExtraSearchActivity::class.java)
@@ -47,8 +59,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun searchAndShow(codeToFind: String) {
-        val fragment = SearchFragment.newInstance(1, codeToFind)
+    private fun searchAndShow(flag: Int, codeToFind: String?, codePartToFind: String?, wnToFind: String?) {
+        val fragment = SearchFragment.newInstance(1, flag, codeToFind, codePartToFind, wnToFind)
         fragment.show(supportFragmentManager, SearchFragment.TAG)
     }
 }

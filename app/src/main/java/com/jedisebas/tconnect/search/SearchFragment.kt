@@ -20,7 +20,10 @@ class SearchFragment : DialogFragment(), OnItemClickListener {
 
     private val viewModel: SearchItemViewModel by viewModels()
     private var columnCount = 1
-    private var code: Long = 0
+    private var flag = 0
+    private var code: Long? = 0
+    private var part: Long? = 0
+    private var wn: String? = ""
     private lateinit var recyclerAdapter: SearchItemViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +31,10 @@ class SearchFragment : DialogFragment(), OnItemClickListener {
 
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
-            code = it.getString(ARG_CODE)?.toLong() ?: "0".toLong()
+            flag = it.getInt(ARG_FLAG)
+            code = it.getString(ARG_CODE)?.toLong()
+            part = it.getString(ARG_CODE_PART)?.toLong()
+            wn = it.getString(ARG_WN)
         }
     }
 
@@ -77,7 +83,7 @@ class SearchFragment : DialogFragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.insertItems(code)
+        viewModel.insertItems(flag, code, part, wn)
     }
 
     override fun onItemClick(position: Int) {
@@ -88,14 +94,24 @@ class SearchFragment : DialogFragment(), OnItemClickListener {
 
         const val TAG = "SearchFragment"
         const val ARG_COLUMN_COUNT = "column-count"
+        const val ARG_FLAG = "search-type"
         const val ARG_CODE = "code"
+        const val ARG_CODE_PART = "part"
+        const val ARG_WN = "wn"
+
+        const val CODE_SEARCH = 1
+        const val PART_SEARCH = 2
+        const val NO_T_SEARCH = 3
 
         @JvmStatic
-        fun newInstance(columnCount: Int, code: String) =
+        fun newInstance(columnCount: Int, flag: Int, code: String?, part: String?, wn: String?) =
             SearchFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
+                    putInt(ARG_FLAG, flag)
                     putString(ARG_CODE, code)
+                    putString(ARG_CODE_PART, part)
+                    putString(ARG_WN, wn)
                 }
             }
     }
