@@ -54,16 +54,17 @@
         app:layout_constraintVertical_bias="0.15" />
 
     <EditText
-        android:id="@+id/w_n_main_et"
+        android:id="@+id/n_w_main_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/w_n_header"
+        android:hint="@string/n_w_header"
         android:importantForAutofill="no"
         android:inputType="text"
         android:minHeight="@dimen/et_min_height"
         android:textColorHint="#8D6E63"
         android:textSize="@dimen/et_bigger_text"
+        android:maxLength="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +81,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/w_n_main_et"
+        app:layout_constraintTop_toBottomOf="@+id/n_w_main_et"
         app:layout_constraintVertical_bias="0.15" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

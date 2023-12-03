@@ -15,15 +15,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jedisebas.tconnect.OnItemClickListener
 import com.jedisebas.tconnect.R
 import com.jedisebas.tconnect.ticket.TicketActivity
+import com.jedisebas.tconnect.util.PseudoNull
 
 class SearchFragment : DialogFragment(), OnItemClickListener {
 
     private val viewModel: SearchItemViewModel by viewModels()
     private var columnCount = 1
     private var flag = 0
-    private var code: Long? = 0
-    private var part: Long? = 0
-    private var wn: String? = ""
+    private var code: Long = 0
+    private var part: Long = 0
+    private var nw: Int = 0
     private lateinit var recyclerAdapter: SearchItemViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,9 +33,9 @@ class SearchFragment : DialogFragment(), OnItemClickListener {
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
             flag = it.getInt(ARG_FLAG)
-            code = it.getString(ARG_CODE)?.toLong()
-            part = it.getString(ARG_CODE_PART)?.toLong()
-            wn = it.getString(ARG_WN)
+            code = PseudoNull.evaluateToLong(it.getString(ARG_CODE))
+            part = PseudoNull.evaluateToLong(it.getString(ARG_CODE_PART))
+            nw = PseudoNull.evaluateToInt(it.getString(ARG_WN))
         }
     }
 
@@ -83,7 +84,7 @@ class SearchFragment : DialogFragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.insertItems(flag, code, part, wn)
+        viewModel.insertItems(flag, code, part, nw)
     }
 
     override fun onItemClick(position: Int) {

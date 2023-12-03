@@ -54,16 +54,17 @@
         app:layout_constraintTop_toBottomOf="@+id/number_t_extra_et" />
 
     <EditText
-        android:id="@+id/w_n_extra_et"
+        android:id="@+id/n_w_extra_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/w_n_header"
+        android:hint="@string/n_w_header"
         android:importantForAutofill="no"
         android:inputType="text"
         android:minHeight="@dimen/et_min_height"
         android:textColorHint="#8D6E63"
         android:layout_marginTop="@dimen/extra_margin_top"
+        android:maxLength="5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/date_extra_et" />
@@ -81,7 +82,7 @@
         android:layout_marginTop="@dimen/extra_margin_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/w_n_extra_et" />
+        app:layout_constraintTop_toBottomOf="@+id/n_w_extra_et" />
 
     <Button
         android:id="@+id/extra_search_btn"

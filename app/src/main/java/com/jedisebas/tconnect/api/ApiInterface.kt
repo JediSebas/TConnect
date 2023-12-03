@@ -28,17 +28,17 @@ interface ApiInterface {
 
     @Headers("Content-Type: application/json")
     @GET("v2/products/main")
-    fun getAllByCodePartAndWn(@Query("part") part: Long?, @Query("wn") wn: String?): Call<List<ProductDto>>
+    fun getAllByCodePartAndNw(@Query("part") part: Long,@Query("nw") nw: Int): Call<List<ProductDto>>
 
     @Headers("Content-Type: application/json")
     @GET("v2/products/extra")
-    fun getAllByParamsCode(@Query("code") code: Long?, @Query("number") number: Int?,
-                           @Query("date") date: LocalDate?, @Query("wn") wn: String?): Call<List<ProductDto>>
+    fun getAllByParamsCode(@Query("code") code: Long, @Query("number") number: Int,
+                           @Query("date") date: LocalDate, @Query("nw") nw: Int): Call<List<ProductDto>>
 
     @Headers("Content-Type: application/json")
     @GET("v2/products/extra")
-    fun getAllByParamsCodePart(@Query("code") part: Long?, @Query("number") number: Int?,
-                           @Query("date") date: LocalDate?, @Query("wn") wn: String?): Call<List<ProductDto>>
+    fun getAllByParamsCodePart(@Query("part") part: Long, @Query("number") number: Int,
+                           @Query("date") date: LocalDate, @Query("nw") nw: Int): Call<List<ProductDto>>
 
     @Headers("Content-Type: application/json")
     @PUT("v2/products")

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jedisebas.tconnect.api.ApiClient
 import com.jedisebas.tconnect.api.ProductDto
+import com.jedisebas.tconnect.search.SearchFragment
 import com.jedisebas.tconnect.search.SearchItemViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -21,14 +22,20 @@ object ExtraSearchViewModel : ViewModel() {
     private val _isNotConnected = MutableLiveData<Boolean>()
     val isNotConnected: LiveData<Boolean> get() = _isNotConnected
 
-    fun insertItems(numberT: Int, date: LocalDate, wN: String) {
+    fun insertItems(flag: Int, code: Long, numberT: Int, date: LocalDate, nW: Int, part: Long) {
         viewModelScope.launch {
             _isNotConnected.value = false
             val api = ApiClient.createApi()
-            val call = if (wN.isEmpty()) {
-                api.getByNumberTAndDate(numberT, date)
-            } else {
-                api.getByNumberTAndDateAndWN(numberT, date, wN)
+            val call: Call<List<ProductDto>> = when (flag) {
+                SearchFragment.CODE_SEARCH -> {
+                    api.getAllByParamsCode(code, numberT, date, nW)
+                }
+                SearchFragment.PART_SEARCH -> {
+                    api.getAllByParamsCodePart(part, numberT, date, nW)
+                }
+                else -> {
+                    api.getAllWithNumberT()
+                }
             }
             _dataList.postValue(ArrayList())
 

@@ -23,16 +23,16 @@ object SearchItemViewModel : ViewModel() {
     private val _isNotConnected = MutableLiveData<Boolean>()
     val isNotConnected: LiveData<Boolean> get() = _isNotConnected
 
-    fun insertItems(flags: Int, code: Long?, part: Long?, wn: String?) {
+    fun insertItems(flags: Int, code: Long, part: Long, nw: Int) {
         viewModelScope.launch {
             _isNotConnected.value = false
             val api = ApiClient.createApi()
             val call: Call<List<ProductDto>> = when (flags) {
                 SearchFragment.CODE_SEARCH -> {
-                    code?.let { api.getAllByCode(it) }!!
+                    api.getAllByCode(code)
                 }
                 SearchFragment.PART_SEARCH -> {
-                    api.getAllByCodePartAndWn(part, wn)
+                    api.getAllByCodePartAndNw(part, nw)
                 }
                 else -> {
                     api.getAllWithNullNumberT()

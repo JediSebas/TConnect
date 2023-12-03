@@ -43,12 +43,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.searchBtn.setOnClickListener {
             val part: String = binding.fourCodeMainEt.text.toString().trim()
-            val wn: String = binding.wNMainEt.text.toString().trim()
+            val nw: String = binding.nWMainEt.text.toString().trim()
 
-            if (part.isEmpty() && wn.isEmpty()) {
+            if (part.isEmpty() && nw.isEmpty()) {
                 searchAndShow(SearchFragment.NO_T_SEARCH, null, null, null)
             } else {
-                searchAndShow(SearchFragment.PART_SEARCH, null, part, wn)
+                searchAndShow(SearchFragment.PART_SEARCH, null, part, nw)
             }
 
         }

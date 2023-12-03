@@ -24,8 +24,6 @@ class ExtraSearchActivity : AppCompatActivity() {
         binding = ActivityExtrasearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.dateExtraEt.setText(currentDate())
-
         binding.dateExtraEt.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 showDatePickerDialog(binding.dateExtraEt)
@@ -35,29 +33,22 @@ class ExtraSearchActivity : AppCompatActivity() {
         }
 
         binding.extraSearchBtn.setOnClickListener {
+            val code = binding.codeExtraEt.text.toString().trim()
             val numberT = binding.numberTExtraEt.text.toString().trim()
             val date = binding.dateExtraEt.text.toString().trim()
-            val wN = binding.wNExtraEt.text.toString().trim()
+            val nW = binding.nWExtraEt.text.toString().trim()
+            val part = binding.fourCodeExtraEt.text.toString().trim()
 
-            if (numberT.isEmpty() || date.isEmpty()) {
-                Toast.makeText(baseContext, getString(R.string.enter_number_and_date), Toast.LENGTH_SHORT).show()
-            } else {
+            if (date.isNotEmpty()) {
                 if (validDateFormat(date)) {
-                    searchAndShow(numberT.toInt(), date, wN)
+                    beforeSearchAndShow(code, numberT, date, nW, part)
                 } else {
                     Toast.makeText(baseContext, getString(R.string.wrong_date_format), Toast.LENGTH_SHORT).show()
                 }
+            } else if (date.isEmpty()) {
+                beforeSearchAndShow(code, numberT, date, nW, part)
             }
         }
-    }
-
-    private fun currentDate(): String {
-        val calendar = Calendar.getInstance()
-        val y: Int = calendar.get(Calendar.YEAR)
-        val m: Int = calendar.get(Calendar.MONTH)
-        val d: Int = calendar.get(Calendar.DAY_OF_MONTH)
-
-        return "$y-${addLeadingZero(m + 1)}-${addLeadingZero(d)}"
     }
 
     private fun showDatePickerDialog(editTextDate: EditText) {
@@ -95,8 +86,18 @@ class ExtraSearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun searchAndShow(numberT: Int, date: String, wN: String) {
-        val fragment = ExtraSearchFragment.newInstance(1, numberT, date, wN)
+    private fun beforeSearchAndShow(code: String?, numberT: String?, date: String?, nW: String?, part: String?) {
+        if (code!!.isNotEmpty()) {
+            searchAndShow(ExtraSearchFragment.CODE_SEARCH, code, numberT, date, nW, part)
+        } else if (part!!.isNotEmpty()) {
+            searchAndShow(ExtraSearchFragment.PART_SEARCH, code, numberT, date, nW, part)
+        } else {
+            searchAndShow(ExtraSearchFragment.T_SEARCH, code, numberT, date, nW, part)
+        }
+    }
+
+    private fun searchAndShow(flag: Int, code: String?, numberT: String?, date: String?, wN: String?, part: String?) {
+        val fragment = ExtraSearchFragment.newInstance(1, flag, code, numberT, date, wN, part)
         fragment.show(supportFragmentManager, ExtraSearchFragment.TAG)
     }
 }

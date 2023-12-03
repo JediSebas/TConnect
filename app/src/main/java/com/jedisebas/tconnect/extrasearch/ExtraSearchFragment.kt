@@ -17,15 +17,19 @@ import com.jedisebas.tconnect.R
 import com.jedisebas.tconnect.search.SearchItemViewAdapter
 import com.jedisebas.tconnect.search.SearchItemViewModel
 import com.jedisebas.tconnect.ticket.TicketActivity
+import com.jedisebas.tconnect.util.PseudoNull
 import java.time.LocalDate
 
 class ExtraSearchFragment : DialogFragment(), OnItemClickListener {
 
     private val viewModel: ExtraSearchViewModel by viewModels()
     private var columnCount = 1
+    private var flag = 0
+    private var code: Long = 0
     private var numberT: Int = 0
-    private var date: String = "0000-00-00"
-    private var wN: String = "W0"
+    private var date: LocalDate = LocalDate.parse("0000-01-01")
+    private var nW: Int = 0
+    private var part: Long = 0
     private lateinit var recyclerAdapter: SearchItemViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,9 +37,12 @@ class ExtraSearchFragment : DialogFragment(), OnItemClickListener {
 
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
-            numberT = it.getInt(ARG_NUMBER_T)
-            date = it.getString(ARG_DATE).toString()
-            wN = it.getString(ARG_WN).toString()
+            flag = it.getInt(ARG_FLAG)
+            code = PseudoNull.evaluateToLong(it.getString(ARG_CODE))
+            numberT = PseudoNull.evaluateToInt(it.getString(ARG_NUMBER_T))
+            date = PseudoNull.evaluateToLocalDate(it.getString(ARG_DATE))
+            nW = PseudoNull.evaluateToInt(it.getString(ARG_WN))
+            part = PseudoNull.evaluateToLong(it.getString(ARG_CODE_PART))
         }
     }
 
@@ -85,7 +92,7 @@ class ExtraSearchFragment : DialogFragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.insertItems(numberT, LocalDate.parse(date), wN)
+        viewModel.insertItems(flag, code, numberT, date, nW, part)
     }
 
     override fun onItemClick(position: Int) {
@@ -96,18 +103,28 @@ class ExtraSearchFragment : DialogFragment(), OnItemClickListener {
 
         const val TAG = "ExtraSearchFragment"
         const val ARG_COLUMN_COUNT = "column-count"
+        const val ARG_FLAG = "search-type"
+        const val ARG_CODE = "code"
         const val ARG_NUMBER_T = "numberT"
         const val ARG_DATE = "date"
         const val ARG_WN = "wN"
+        const val ARG_CODE_PART = "part"
+
+        const val CODE_SEARCH = 1
+        const val PART_SEARCH = 2
+        const val T_SEARCH = 3
 
         @JvmStatic
-        fun newInstance(columnCount: Int, numberT: Int, date: String, wN: String) =
+        fun newInstance(columnCount: Int, flag: Int, code: String?, numberT: String?, date: String?, wN: String?, part: String?) =
             ExtraSearchFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
-                    putInt(ARG_NUMBER_T, numberT)
+                    putInt(ARG_FLAG, flag)
+                    putString(ARG_CODE, code)
+                    putString(ARG_NUMBER_T, numberT)
                     putString(ARG_DATE, date)
                     putString(ARG_WN, wN)
+                    putString(ARG_CODE_PART, part)
                 }
             }
     }
