@@ -113,6 +113,7 @@ class ExtraSearchFragment : DialogFragment(), OnItemClickListener {
         const val CODE_SEARCH = 1
         const val PART_SEARCH = 2
         const val T_SEARCH = 3
+        const val WITHOUT_CODE_SEARCH = 4
 
         @JvmStatic
         fun newInstance(columnCount: Int, flag: Int, code: String?, numberT: String?, date: String?, wN: String?, part: String?) =

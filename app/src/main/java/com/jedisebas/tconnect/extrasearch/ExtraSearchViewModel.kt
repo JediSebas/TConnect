@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jedisebas.tconnect.api.ApiClient
 import com.jedisebas.tconnect.api.ProductDto
-import com.jedisebas.tconnect.search.SearchFragment
 import com.jedisebas.tconnect.search.SearchItemViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -27,14 +26,17 @@ object ExtraSearchViewModel : ViewModel() {
             _isNotConnected.value = false
             val api = ApiClient.createApi()
             val call: Call<List<ProductDto>> = when (flag) {
-                SearchFragment.CODE_SEARCH -> {
+                ExtraSearchFragment.CODE_SEARCH -> {
                     api.getAllByParamsCode(code, numberT, date, nW)
                 }
-                SearchFragment.PART_SEARCH -> {
+                ExtraSearchFragment.PART_SEARCH -> {
                     api.getAllByParamsCodePart(part, numberT, date, nW)
                 }
-                else -> {
+                ExtraSearchFragment.T_SEARCH -> {
                     api.getAllWithNumberT()
+                }
+                else -> {
+                    api.getAllByParamsCode(code, numberT, date, nW)
                 }
             }
             _dataList.postValue(ArrayList())

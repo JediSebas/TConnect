@@ -91,8 +91,11 @@ class ExtraSearchActivity : AppCompatActivity() {
             searchAndShow(ExtraSearchFragment.CODE_SEARCH, code, numberT, date, nW, part)
         } else if (part!!.isNotEmpty()) {
             searchAndShow(ExtraSearchFragment.PART_SEARCH, code, numberT, date, nW, part)
-        } else {
+        } else if (code.isEmpty() && part.isEmpty() && numberT.isNullOrEmpty() &&
+            date.isNullOrEmpty() && nW.isNullOrEmpty()) {
             searchAndShow(ExtraSearchFragment.T_SEARCH, code, numberT, date, nW, part)
+        } else {
+            searchAndShow(ExtraSearchFragment.WITHOUT_CODE_SEARCH, code, numberT, date, nW, part)
         }
     }
 
